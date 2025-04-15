@@ -11,6 +11,7 @@
 	<groupId>com.github.katemerek</groupId>
 	<artifactId>bank-operation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>BankWalletApp</name>
 	<description>Test project for JavaCode</description>
 	<url/>

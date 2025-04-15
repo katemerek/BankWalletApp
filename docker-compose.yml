@@ -1,0 +1,23 @@
+services:
+  app:
+    image: 'wallet-application'
+    build:
+      context: .
+    container_name: wallet-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      url: jdbc:postgresql://localhost:5432/wallet_data
+      username: bankperson
+      password: walletPassword
+
+  db:
+    image: 'postgres:latest'
+    container_name: db
+    environment:
+      - POSTGRES_USER=bankperson
+      - POSTGRES_PASSWORD=walletPassword
+      - POSTGRES_DB=wallet_data
+      - PGPORT=5432
