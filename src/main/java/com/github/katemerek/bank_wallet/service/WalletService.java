@@ -31,5 +31,6 @@ public class WalletService {
         if (!walletRepository.existsById(id)) {
             throw new WalletNotFoundException(id);
         }
-        return walletRepository.findById(id);}
+        return walletRepository.findById(id);
+    }
 }

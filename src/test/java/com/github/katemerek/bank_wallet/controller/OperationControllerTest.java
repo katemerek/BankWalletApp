@@ -2,7 +2,6 @@ package com.github.katemerek.bank_wallet.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.katemerek.bank_wallet.dto.OperationDto;
-import com.github.katemerek.bank_wallet.dto.WalletDto;
 import com.github.katemerek.bank_wallet.mapper.OperationMapper;
 import com.github.katemerek.bank_wallet.model.Operation;
 import com.github.katemerek.bank_wallet.model.Wallet;
@@ -98,6 +97,4 @@ public class OperationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
-
-
 }

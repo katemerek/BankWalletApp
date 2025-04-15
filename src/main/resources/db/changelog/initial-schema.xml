@@ -5,24 +5,25 @@
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="0" author="katemerek">
-    <createTable tableName="wallet" ifNotExists="true">
-        <column name="wallet_id" type="uuid" generationType="gen_random_uuid()">
-            <constraints nullable="false" primaryKey="true"/>
-        </column>
-        <column name="balance" type="double"/>
-    </createTable>
+        <createTable tableName="wallet" ifNotExists="true">
+            <column name="wallet_id" type="uuid" generationType="gen_random_uuid()">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="balance" type="double"/>
+        </createTable>
     </changeSet>
 
     <changeSet id="1" author="katemerek">
         <createTable tableName="operation" ifNotExists="true">
             <column name="id" type="bigserial" autoIncrement="true">
-            <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="wallet_id" type="uuid" >
-            <constraints nullable="false" foreignKeyName="operation_walletid_fkey" referencedTableName="wallet" referencedColumnNames="wallet_id"/>
+            <column name="wallet_id" type="uuid">
+                <constraints nullable="false" foreignKeyName="operation_walletid_fkey" referencedTableName="wallet"
+                             referencedColumnNames="wallet_id"/>
             </column>
             <column name="type_of_operation" type="varchar(20)"/>
-            <column name="amount" type="double" />
+            <column name="amount" type="double"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

@@ -9,25 +9,25 @@
             CREATE OR REPLACE FUNCTION update_balance_wallet() RETURNS TRIGGER AS
             $$
             BEGIN
-            IF TG_OP = 'INSERT' THEN
-                UPDATE wallet
-                SET balance =
-                        CASE
-                            WHEN NEW.type_of_operation = 'DEPOSIT' THEN balance + NEW.amount
-                            WHEN NEW.type_of_operation = 'WITHDRAW' THEN balance - NEW.amount
-                        END
-                WHERE wallet.wallet_id = NEW.wallet_id;
-                RETURN NEW;
-            ELSIF TG_OP = 'DELETE' THEN
-                UPDATE wallet
-                SET balance =
-                        CASE
-                            WHEN OLD.type_of_operation = 'DEPOSIT' THEN balance - OLD.amount
-                            WHEN OLD.type_of_operation = 'WITHDRAW' THEN balance + OLD.amount
-                        END
-                WHERE wallet.wallet_id = NEW.wallet_id;
-                RETURN OLD;
-            END IF;
+                IF TG_OP = 'INSERT' THEN
+                    UPDATE wallet
+                        SET balance =
+                                CASE
+                                    WHEN NEW.type_of_operation = 'DEPOSIT' THEN balance + NEW.amount
+                                    WHEN NEW.type_of_operation = 'WITHDRAW' THEN balance - NEW.amount
+                                END
+                        WHERE wallet.wallet_id = NEW.wallet_id;
+                    RETURN NEW;
+                ELSIF TG_OP = 'DELETE' THEN
+                    UPDATE wallet
+                        SET balance =
+                                CASE
+                                    WHEN OLD.type_of_operation = 'DEPOSIT' THEN balance - OLD.amount
+                                    WHEN OLD.type_of_operation = 'WITHDRAW' THEN balance + OLD.amount
+                                END
+                        WHERE wallet.wallet_id = NEW.wallet_id;
+                    RETURN OLD;
+                END IF;
             END;
             $$
             LANGUAGE plpgsql;

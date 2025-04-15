@@ -8,8 +8,6 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class IdResponse {
-
     private UUID walletId;
-
     private String message;
 }

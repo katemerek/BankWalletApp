@@ -3,8 +3,8 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    
-    <include file= "initial-schema.xml" relativeToChangelogFile="true"/>
+
+    <include file="initial-schema.xml" relativeToChangelogFile="true"/>
     <include file="create-before-trigger.xml" relativeToChangelogFile="true"/>
     <include file="create-after-trigger.xml" relativeToChangelogFile="true"/>
     <include file="insert-data-table.xml" relativeToChangelogFile="true"/>

@@ -14,7 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class OperationDto {
     @NotNull(message = "Please enter the UUID of wallet")
-//    @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
     private UUID walletId;
 
     @NotBlank(message = "Please enter the type of transaction: DEPOSIT or WITHDRAW")

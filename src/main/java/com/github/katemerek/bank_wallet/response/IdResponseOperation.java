@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class IdResponseOperation {
-
     private Long id;
-
     private String message;
 }

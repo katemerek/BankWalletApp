@@ -6,7 +6,8 @@
 
     <changeSet id="t0" author="katemerek">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM wallet</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(*)
+                                         FROM wallet</sqlCheck>
         </preConditions>
         <loadData
                 file="liquibase/InitialWallet.csv"
@@ -19,7 +20,8 @@
 
     <changeSet id="t1" author="katemerek">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM operation</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(*)
+                                         FROM operation</sqlCheck>
         </preConditions>
         <loadData
                 file="liquibase/InitialOperation.csv"

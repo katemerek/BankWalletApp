@@ -18,7 +18,7 @@ import lombok.ToString;
 public class Operation {
     @Id
     @SequenceGenerator(name = "operation_seq", sequenceName = "operation_sequence", initialValue = 25, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operation_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operation_seq") //в миграции БД для облегчения проверки добавлено 24 строки тестовых данных, поэтому вставка начинается с 25
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

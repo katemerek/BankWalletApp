@@ -18,21 +18,13 @@ public class OperationMapper {
         Operation operation = new Operation();
         operation.setTypeOfOperation(TypeOfOperation.valueOf(operationDto.getType()));
         operation.setAmount(operationDto.getAmount());
-
         Wallet wallet = walletRepository.findById(operationDto.getWalletId())
                 .orElseThrow(() -> new WalletNotFoundException(operationDto.getWalletId()));
-
-        if (operation.getTypeOfOperation() == TypeOfOperation.DEPOSIT) {
-            wallet.setBalance(wallet.getBalance() + operation.getAmount());
-        }else{
-            wallet.setBalance(wallet.getBalance() - operation.getAmount());
-        }
-        wallet.setBalance(wallet.getBalance() + operationDto.getAmount());
-
         operation.setWallet(wallet);
 
         return operation;
     }
+
     public OperationDto toOperationDto(Operation operation) {
         OperationDto operationDto = new OperationDto();
         operationDto.setType(String.valueOf(operation.getTypeOfOperation()));
@@ -41,5 +33,4 @@ public class OperationMapper {
 
         return operationDto;
     }
-
 }

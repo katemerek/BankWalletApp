@@ -1,6 +1,5 @@
 package com.github.katemerek.bank_wallet.service;
 
-import com.github.katemerek.bank_wallet.enumiration.TypeOfOperation;
 import com.github.katemerek.bank_wallet.model.Operation;
 import com.github.katemerek.bank_wallet.repository.OperationRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +20,7 @@ public class OperationService {
         return operation.getId();
     }
 
-    public List<Operation> getAllOperations() {return operationRepository.findAll();}
-
+    public List<Operation> getAllOperations() {
+        return operationRepository.findAll();
+    }
 }
