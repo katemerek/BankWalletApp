@@ -1,9 +1,9 @@
 package com.github.katemerek.bank_wallet.mapper;
 
 import com.github.katemerek.bank_wallet.dto.OperationDto;
+import com.github.katemerek.bank_wallet.enumiration.TypeOfOperation;
 import com.github.katemerek.bank_wallet.model.Operation;
 import com.github.katemerek.bank_wallet.model.Wallet;
-import com.github.katemerek.bank_wallet.repository.OperationRepository;
 import com.github.katemerek.bank_wallet.repository.WalletRepository;
 import com.github.katemerek.bank_wallet.util.WalletNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,18 +16,26 @@ public class OperationMapper {
 
     public Operation toOperation(OperationDto operationDto) {
         Operation operation = new Operation();
-        operation.setOperationType(operationDto.getOperationType());
+        operation.setTypeOfOperation(TypeOfOperation.valueOf(operationDto.getType()));
         operation.setAmount(operationDto.getAmount());
 
         Wallet wallet = walletRepository.findById(operationDto.getWalletId())
-                .orElseThrow(() -> new WalletNotFoundException(operationDto.getWalletId()));;
+                .orElseThrow(() -> new WalletNotFoundException(operationDto.getWalletId()));
+
+        if (operation.getTypeOfOperation() == TypeOfOperation.DEPOSIT) {
+            wallet.setBalance(wallet.getBalance() + operation.getAmount());
+        }else{
+            wallet.setBalance(wallet.getBalance() - operation.getAmount());
+        }
+        wallet.setBalance(wallet.getBalance() + operationDto.getAmount());
+
         operation.setWallet(wallet);
 
         return operation;
     }
     public OperationDto toOperationDto(Operation operation) {
         OperationDto operationDto = new OperationDto();
-        operationDto.setOperationType(operation.getOperationType());
+        operationDto.setType(String.valueOf(operation.getTypeOfOperation()));
         operationDto.setAmount(operation.getAmount());
         operationDto.setWalletId(operation.getWallet().getWalletId());
 

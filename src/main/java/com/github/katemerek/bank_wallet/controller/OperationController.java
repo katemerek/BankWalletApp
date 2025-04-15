@@ -3,7 +3,6 @@ package com.github.katemerek.bank_wallet.controller;
 import com.github.katemerek.bank_wallet.dto.OperationDto;
 import com.github.katemerek.bank_wallet.mapper.OperationMapper;
 import com.github.katemerek.bank_wallet.model.Operation;
-import com.github.katemerek.bank_wallet.response.IdResponse;
 import com.github.katemerek.bank_wallet.response.IdResponseOperation;
 import com.github.katemerek.bank_wallet.service.OperationService;
 import com.github.katemerek.bank_wallet.util.WalletNotFoundException;
@@ -43,6 +42,4 @@ public class OperationController {
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
-
-
 }

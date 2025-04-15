@@ -2,7 +2,6 @@ package com.github.katemerek.bank_wallet.controller;
 
 import com.github.katemerek.bank_wallet.dto.WalletDto;
 import com.github.katemerek.bank_wallet.mapper.WalletMapper;
-import com.github.katemerek.bank_wallet.model.Operation;
 import com.github.katemerek.bank_wallet.model.Wallet;
 import com.github.katemerek.bank_wallet.response.IdResponse;
 import com.github.katemerek.bank_wallet.service.WalletService;
@@ -38,7 +37,7 @@ public class WalletController {
     }
 
     @PostMapping("/add_wallets")
-    public ResponseEntity<IdResponse> createWallet (@RequestBody @Valid WalletDto walletDto) throws WalletNotFoundException {
+    public ResponseEntity<IdResponse> createWallet (@RequestBody @Valid WalletDto walletDto) {
         Wallet walletToAdd = walletMapper.toWallet(walletDto);
         walletService.add(walletToAdd);
         IdResponse response = new IdResponse(

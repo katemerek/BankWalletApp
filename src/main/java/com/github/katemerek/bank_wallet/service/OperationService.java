@@ -1,6 +1,6 @@
 package com.github.katemerek.bank_wallet.service;
 
-import com.github.katemerek.bank_wallet.enumiration.OperationType;
+import com.github.katemerek.bank_wallet.enumiration.TypeOfOperation;
 import com.github.katemerek.bank_wallet.model.Operation;
 import com.github.katemerek.bank_wallet.repository.OperationRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +17,8 @@ public class OperationService {
 
     @Transactional
     public Long add(Operation operation) {
-        supplementWallet(operation);
         operationRepository.save(operation);
         return operation.getId();
-    }
-
-    public void supplementWallet(Operation operation) {
-        if (operation.getOperationType() == OperationType.DEPOSIT) {
-        operation.setBalance(operation.getWallet().getBalance() + operation.getAmount());
-        }else{
-            operation.setBalance(operation.getWallet().getBalance() - operation.getAmount());
-        }
     }
 
     public List<Operation> getAllOperations() {return operationRepository.findAll();}

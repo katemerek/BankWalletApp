@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="tb1" author="katemerek">
+        <sql dbms="postgresql" splitStatements="false">
+            CREATE OR REPLACE FUNCTION check_balance_wallet_or_raise_exception() RETURNS TRIGGER AS
+            $$
+            DECLARE
+                wallet_balance NUMERIC;
+            BEGIN
+                IF NEW.type_of_operation != 'WITHDRAW'
+                   THEN RETURN NEW;
+                END IF;
+
+                SELECT balance
+                INTO wallet_balance
+                FROM wallet
+                WHERE wallet_id = NEW.wallet_id;
+
+                IF wallet_balance &lt; NEW.amount
+                   THEN RAISE EXCEPTION 'Недостаточно средств на кошельке %', NEW.wallet_id;
+                END IF;
+
+                RETURN NEW;
+            END;
+            $$
+            LANGUAGE plpgsql;
+        </sql>
+    </changeSet>
+
+    <changeSet id="tb2" author="katemerek">
+        <sql>
+            DROP TRIGGER IF EXISTS check_balance_before ON operation;
+            CREATE TRIGGER check_balance_before
+                BEFORE INSERT ON operation FOR EACH ROW
+                EXECUTE FUNCTION check_balance_wallet_or_raise_exception();
+        </sql>
+        <rollback>
+            DROP TRIGGER check_balance_before ON operation;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

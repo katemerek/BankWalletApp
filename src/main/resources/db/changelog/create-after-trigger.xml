@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="ta1" author="katemerek">
+        <sql dbms="postgresql" splitStatements="false">
+            CREATE OR REPLACE FUNCTION update_balance_wallet() RETURNS TRIGGER AS
+            $$
+            BEGIN
+            IF TG_OP = 'INSERT' THEN
+                UPDATE wallet
+                SET balance =
+                        CASE
+                            WHEN NEW.type_of_operation = 'DEPOSIT' THEN balance + NEW.amount
+                            WHEN NEW.type_of_operation = 'WITHDRAW' THEN balance - NEW.amount
+                        END
+                WHERE wallet.wallet_id = NEW.wallet_id;
+                RETURN NEW;
+            ELSIF TG_OP = 'DELETE' THEN
+                UPDATE wallet
+                SET balance =
+                        CASE
+                            WHEN OLD.type_of_operation = 'DEPOSIT' THEN balance - OLD.amount
+                            WHEN OLD.type_of_operation = 'WITHDRAW' THEN balance + OLD.amount
+                        END
+                WHERE wallet.wallet_id = NEW.wallet_id;
+                RETURN OLD;
+            END IF;
+            END;
+            $$
+            LANGUAGE plpgsql;
+        </sql>
+    </changeSet>
+
+    <changeSet id="ta2" author="katemerek">
+        <sql>
+            DROP TRIGGER IF EXISTS update_balance_insert ON operation;
+            CREATE TRIGGER update_balance_insert
+                AFTER INSERT ON operation FOR EACH ROW
+            EXECUTE FUNCTION update_balance_wallet();
+        </sql>
+        <rollback>
+            DROP TRIGGER update_balance_insert ON operation;
+        </rollback>
+    </changeSet>
+
+    <changeSet id="ta3" author="katemerek">
+        <sql>
+            DROP TRIGGER IF EXISTS update_balance_delete ON operation;
+            CREATE TRIGGER update_balance_delete
+                AFTER DELETE ON operation FOR EACH ROW
+            EXECUTE FUNCTION update_balance_wallet();
+        </sql>
+        <rollback>
+            DROP TRIGGER update_balance_delete ON operation;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

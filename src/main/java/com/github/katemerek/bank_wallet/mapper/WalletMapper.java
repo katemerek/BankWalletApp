@@ -1,7 +1,6 @@
 package com.github.katemerek.bank_wallet.mapper;
 
 import com.github.katemerek.bank_wallet.dto.WalletDto;
-import com.github.katemerek.bank_wallet.model.Operation;
 import com.github.katemerek.bank_wallet.model.Wallet;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

@@ -1,9 +1,9 @@
 package com.github.katemerek.bank_wallet.model;
 
-import com.github.katemerek.bank_wallet.enumiration.OperationType;
+import com.github.katemerek.bank_wallet.enumiration.TypeOfOperation;
+import com.github.katemerek.bank_wallet.util.TypeConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,22 +17,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Operation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "operation_seq", sequenceName = "operation_sequence", initialValue = 25, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operation_seq")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "walletId")
+    @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    @NotBlank(message = "Please enter the type of operation: DEPOSIT or WITHDRAW")
-    private OperationType operationType;
+    @Convert(converter = TypeConverter.class)
+    @Column(columnDefinition = "type_of_operation")
+    private TypeOfOperation typeOfOperation;
 
     @Column(name = "amount")
     @Min(value = 1, message = "Please enter the amount of money for the transaction greater than zero")
     private double amount;
-
-    @Column(name = "balance")
-    private double balance;
 }
