@@ -9,15 +9,22 @@ services:
     depends_on:
       - db
     environment:
-      url: jdbc:postgresql://localhost:5432/wallet_data
-      username: bankperson
-      password: walletPassword
-
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wallet_data
+      - SPRING_DATASOURCE_USERNAME=bankperson
+      - SPRING_DATASOURCE_PASSWORD=walletPassword
+    restart: unless-stopped
   db:
-    image: 'postgres:latest'
+    image: postgres:14.7-alpine
     container_name: db
     environment:
       - POSTGRES_USER=bankperson
       - POSTGRES_PASSWORD=walletPassword
       - POSTGRES_DB=wallet_data
       - PGPORT=5432
+    volumes:
+       - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  db-data:

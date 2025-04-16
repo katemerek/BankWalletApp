@@ -23,11 +23,8 @@ public class WalletController {
     private final WalletMapper walletMapper;
 
     @GetMapping("/wallets")
-    public List<WalletDto> getAllWallets() {
-        return walletService.getAllWallets()
-                .stream()
-                .map(walletMapper::toWalletDto)
-                .toList();
+    public List<Wallet> getAllWallets() {
+        return walletService.getAllWallets();
     }
 
     @GetMapping("/wallets/{walletId}")

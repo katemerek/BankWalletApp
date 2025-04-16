@@ -1,11 +1,9 @@
 package com.github.katemerek.bank_wallet.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,7 +22,4 @@ public class Wallet {
     @Column(name = "balance")
     @PositiveOrZero(message = "Balance cannot be negative")
     private double balance;
-
-    @OneToMany(mappedBy = "wallet", cascade = CascadeType.REFRESH, orphanRemoval = true)
-    private List<Operation> operations;
 }

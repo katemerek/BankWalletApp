@@ -17,9 +17,7 @@ import java.util.UUID;
 public class WalletService {
     private final WalletRepository walletRepository;
 
-    public List<Wallet> getAllWallets() {
-        return walletRepository.findAll();
-    }
+    public List<Wallet> getAllWallets() {return walletRepository.findAll();}
 
     @Transactional
     public UUID add(Wallet wallet) {

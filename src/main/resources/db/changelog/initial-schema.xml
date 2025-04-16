@@ -3,8 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-
-    <changeSet id="0" author="katemerek">
+    <changeSet id="1" author="katemerek">
         <createTable tableName="wallet" ifNotExists="true">
             <column name="wallet_id" type="uuid" generationType="gen_random_uuid()">
                 <constraints nullable="false" primaryKey="true"/>
@@ -13,7 +12,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="1" author="katemerek">
+    <changeSet id="2" author="katemerek">
         <createTable tableName="operation" ifNotExists="true">
             <column name="id" type="bigserial" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
