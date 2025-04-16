@@ -1,9 +1,9 @@
 services:
-  app:
-    image: 'wallet-application'
-    build:
-      context: .
-    container_name: wallet-app
+  bank-operation:
+    build: .
+    image: bank-operation:latest
+    container_name: wallet-application
+    restart: unless-stopped
     ports:
       - "8080:8080"
     depends_on:
@@ -13,7 +13,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wallet_data
       - SPRING_DATASOURCE_USERNAME=bankperson
       - SPRING_DATASOURCE_PASSWORD=walletPassword
-    restart: unless-stopped
+
   db:
     image: postgres:14.7-alpine
     container_name: db
