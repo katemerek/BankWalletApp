@@ -1,6 +1,11 @@
-FROM docker.io/eclipse-temurin:17.0.7_7-jre
+FROM eclipse-temurin:11-alpine AS builder
+COPY . /src
+WORKDIR /src
+RUN ./mvnw clean package
 
-WORKDIR /walletApp
-COPY target/bank-operation-0.0.1-SNAPSHOT.jar /walletApp/bank-operation-0.0.1-SNAPSHOT.jar
-EXPOSE 8080/tcp
-CMD ["java", "-jar", "bank-operation-0.0.1-SNAPSHOT.jar"]
+
+FROM eclipse-temurin:11-alpine
+WORKDIR /app
+COPY --from=builder /src/target/*.jar ./app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","./app.jar"]
