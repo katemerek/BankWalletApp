@@ -19,8 +19,8 @@ The following steps will run a local instance of the BankWalletApp using the def
 
 ```bash
 git clone https://github.com/katemerek/BankWalletApp.git
-cd  docker-compose
-docker-compose up
+cd  BankWalletApp/
+docker compose up
 ```
 
 After the Server has started, you can open the BankWalletApp in your browser or test the API with Postman to perform various operations described below.
