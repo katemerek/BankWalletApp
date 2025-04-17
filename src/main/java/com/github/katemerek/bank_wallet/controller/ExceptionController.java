@@ -1,6 +1,7 @@
 package com.github.katemerek.bank_wallet.controller;
 
 import com.github.katemerek.bank_wallet.response.ExceptionResponse;
+import com.github.katemerek.bank_wallet.util.InsufficientFundsException;
 import com.github.katemerek.bank_wallet.util.WalletNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +65,17 @@ public class ExceptionController {
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "invalid operation",
+                ex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    public ResponseEntity<ExceptionResponse> handleInsufficientFundsException(InsufficientFundsException ex) {
+        ExceptionResponse response = new ExceptionResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Insufficient funds",
                 ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

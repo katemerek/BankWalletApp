@@ -3,6 +3,7 @@ package com.github.katemerek.bank_wallet.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class Wallet {
     @Id
     @Column(name = "wallet_id")

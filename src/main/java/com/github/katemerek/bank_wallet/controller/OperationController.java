@@ -32,7 +32,7 @@ public class OperationController {
     @PostMapping("/wallet")
     public ResponseEntity<IdResponseOperation> addOperation(@RequestBody @Valid OperationDto operationDto) throws WalletNotFoundException {
         Operation operationToAdd = operationMapper.toOperation(operationDto);
-        operationService.add(operationToAdd);
+        operationService.save(operationToAdd);
         IdResponseOperation response = new IdResponseOperation(
                 operationToAdd.getId(),
                 "New operation for wallet " + operationDto.getWalletId() + "created successfully"

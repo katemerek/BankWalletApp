@@ -2,6 +2,7 @@ package com.github.katemerek.bank_wallet.service;
 
 import com.github.katemerek.bank_wallet.model.Operation;
 import com.github.katemerek.bank_wallet.repository.OperationRepository;
+import com.github.katemerek.bank_wallet.util.InsufficientFundsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,5 +23,14 @@ public class OperationService {
 
     public List<Operation> getAllOperations() {
         return operationRepository.findAll();
+    }
+
+    @Transactional
+    public Long save(Operation operation) {
+        boolean checkBalance = operationRepository.saveWithUpdateBalance(operation);
+        if (!checkBalance) {
+            throw new InsufficientFundsException();
+        }
+        return operation.getId();
     }
 }
